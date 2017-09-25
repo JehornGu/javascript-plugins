@@ -1,0 +1,143 @@
+.share-dialog h5,
+.share-dialog p
+{
+    margin: 0;
+    padding: 0;
+}
+.share-dialog
+{
+    font-size: 24px;
+
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    transition: all .3s ease-out;
+
+    background-color: rgba(0, 0, 0, .5);
+}
+.share-dialog > .share-wrapper
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+
+    width: 100%;
+    height: 30%;
+    min-height: 300px;
+
+    transition: all .2s linear;
+
+    background-color: #e9eff2;
+}
+.share-dialog > .share-wrapper > .share-header
+{
+    padding: 30px 15px;
+
+    text-align: center;
+}
+.share-dialog > .share-wrapper > .share-header > h5
+{
+    font-size: 1.9em;
+    font-weight: normal;
+}
+.share-dialog > .share-wrapper > .share-body
+{
+    margin-bottom: 150px;
+    padding: 0 15px;
+}
+.share-dialog .bdsharebuttonbox,
+.share-dialog .bdsharetextbox
+{
+    display: flex;
+
+    justify-content: center;
+}
+.share-dialog .bdsharebuttonbox > a
+{
+    display: inline-block;
+
+    width: 150px;
+    height: 150px;
+    margin-right: 40px;
+
+    background: inherit;
+    background-image: url('./society_icons.png');
+    background-repeat: no-repeat;
+    background-size: 1000%;
+}
+.share-dialog .bdsharetextbox > span
+{
+    font-size: 1em;
+
+    width: 150px;
+    margin-right: 40px;
+
+    text-align: center;
+}
+.share-dialog .bdsharetextbox > span:first-child
+{
+    margin-left: 40px;
+}
+.share-dialog .bdsharebuttonbox > a.bds_weixin
+{
+    background-position-x: -150px;
+    background-position-y: -1724px;
+}
+.share-dialog .bdsharebuttonbox > a.bds_tsina
+{
+    background-position-x: -150px;
+    background-position-y: -1180px;
+}
+.share-dialog .bdsharebuttonbox > a.bds_sqq
+{
+    background-position-x: -150px;
+    background-position-y: -4430px;
+}
+.share-dialog .bdsharebuttonbox > a.bds_qzone
+{
+    background-position-x: -150px;
+    background-position-y: -1544px;
+}
+.share-dialog .bdsharebuttonbox > a:last-child
+{
+    margin-right: 0;
+}
+.share-dialog > .share-wrapper > .share-footer
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+}
+.share-dialog > .share-wrapper > .share-footer > .share-cancel
+{
+    font-size: 1.75em;
+    line-height: 150px;
+
+    display: block;
+
+    width: 100%;
+    height: 150px;
+
+    cursor: pointer;
+    text-align: center;
+
+    background-color: #fff;
+}
+.share-dialog > .share-wrapper > .share-footer > .share-cancel:focus
+{
+    border: 0;
+    outline: none;
+    background-color: #fff;
+    box-shadow: none;
+}
