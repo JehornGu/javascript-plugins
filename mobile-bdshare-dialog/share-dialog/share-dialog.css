@@ -6,8 +6,6 @@
 }
 .share-dialog
 {
-    font-size: 24px;
-
     position: fixed;
     z-index: 2000;
     top: 0;
@@ -46,68 +44,72 @@
 }
 .share-dialog > .share-wrapper > .share-header > h5
 {
-    font-size: 1.9em;
+    font-size: 1.35rem;
     font-weight: normal;
 }
 .share-dialog > .share-wrapper > .share-body
 {
-    margin-bottom: 150px;
+    margin-bottom: 4.25rem;
     padding: 0 15px;
 }
-.share-dialog .bdsharebuttonbox,
-.share-dialog .bdsharetextbox
+.share-dialog .sharebuttonbox,
+.share-dialog .sharetextbox
 {
     display: flex;
 
     justify-content: center;
 }
-.share-dialog .bdsharebuttonbox > a
+.share-dialog .sharetextbox {
+    justify-content: space-around;
+}
+.share-dialog .sharebuttonbox > a
 {
     display: inline-block;
 
-    width: 150px;
-    height: 150px;
-    margin-right: 40px;
+    width: 5rem;
+    height: 5rem;
+    margin-right: 1.667rem;
 
     background: inherit;
     background-image: url('./society_icons.png');
     background-repeat: no-repeat;
     background-size: 1000%;
+    background-position-x: -5rem;
 }
-.share-dialog .bdsharetextbox > span
+.share-dialog .sharetextbox > span
 {
-    font-size: 1em;
+    display: inline-block;
+    font-size: 1rem;
 
-    width: 150px;
-    margin-right: 40px;
+    width: 5rem;
+    margin-right: 1.667rem;
 
     text-align: center;
 }
-.share-dialog .bdsharetextbox > span:first-child
+.share-dialog .sharetextbox > span:first-child
 {
-    margin-left: 40px;
+    padding-left: 1.4rem;
 }
-.share-dialog .bdsharebuttonbox > a.bds_weixin
+.share-dialog .sharebuttonbox > a > span {
+	background: none;
+}
+.share-dialog .sharebuttonbox > a.weixin
 {
-    background-position-x: -150px;
-    background-position-y: -1724px;
+    background-position-y: -57.583rem;
 }
-.share-dialog .bdsharebuttonbox > a.bds_tsina
+.share-dialog .sharebuttonbox > a.tsina
 {
-    background-position-x: -150px;
-    background-position-y: -1180px;
+    background-position-y: -39.583rem;
 }
-.share-dialog .bdsharebuttonbox > a.bds_sqq
+.share-dialog .sharebuttonbox > a.sqq
 {
-    background-position-x: -150px;
-    background-position-y: -4430px;
+    background-position-y: -147.833rem;
 }
-.share-dialog .bdsharebuttonbox > a.bds_qzone
+.share-dialog .sharebuttonbox > a.qzone
 {
-    background-position-x: -150px;
-    background-position-y: -1544px;
+    background-position-y: -51.583rem;
 }
-.share-dialog .bdsharebuttonbox > a:last-child
+.share-dialog .sharebuttonbox > a:last-child
 {
     margin-right: 0;
 }
@@ -121,13 +123,14 @@
 }
 .share-dialog > .share-wrapper > .share-footer > .share-cancel
 {
-    font-size: 1.75em;
-    line-height: 150px;
+    color: #000;
+    font-size: 1.25rem;
+    line-height: 4.25rem;
 
     display: block;
 
     width: 100%;
-    height: 150px;
+    height: 4.25rem;
 
     cursor: pointer;
     text-align: center;
@@ -140,4 +143,16 @@
     outline: none;
     background-color: #fff;
     box-shadow: none;
+}
+
+/*JiaThis 微信分享二维码样式*/
+#jiathis_weixin_share {
+    top: 20%;
+}
+.jiathis_weixin_modal {
+    width: 99.5%!important;
+    top: auto!important;
+    left: auto!important;
+    height: 30rem!important;
+    margin: auto!important;
 }
