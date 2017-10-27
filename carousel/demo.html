@@ -1,0 +1,248 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Carousel - 2</title>
+	<style type="text/css">
+		.carousel-container-1 { width: 500px;padding: 0 100px;overflow: hidden; }
+		.carousel-container-2 { width: 500px;padding: 0 0px;overflow: hidden; }
+		.carousel-container-3 { width: 100%;padding: 0 0;overflow: hidden; }
+		.carousel-container-3 .wrapper { width: auto;padding: 0 33.3%;overflow: hidden; }
+		.carousel-container-4 { width: 100%;clear: both;overflow: hidden; }
+		.carousel-container-4 .carousel-box { float: left;width: 33.33%;overflow: hidden; }
+		.carousel-container-5 { width: 100%;clear: both;overflow: hidden; }
+		.carousel-container-5 .carousel-box { float: left;width: 33.33%;overflow: hidden; }
+		.carousel-item-mask { text-align: center;padding-top: 20%; }
+	</style>
+</head>
+<body>
+	<div class="carousel-container-1">
+		<div id="carousel-1">会自动清空容器内多余元素</div>
+		<div id="pager-container-1"></div>
+		<button id="prev-1">PREV - IN</button>
+		<button id="next-1">NEXT - IN</button>
+		<button id="play-1">PLAY</button>
+		<button id="stop-1">STOP</button>
+		<button id="prev-out-1">PREV - OUT</button>
+		<button id="next-out-1">NEXT - OUT</button>
+	</div>
+	<div class="carousel-container-2">
+		<div id="carousel-2"></div>
+		<button id="stop-2">STOP</button>
+		<button id="play-2">PLAY</button>
+	</div>
+	<div class="carousel-container-3">
+		<div class="wrapper">
+			<div id="carousel-3"></div>
+		</div>
+		<button id="prev-3">PREV</button>
+		<button id="next-3">NEXT</button>
+	</div>
+	<div class="carousel-container-4">
+		<div class="carousel-box">
+			<div id="carousel-4"></div>
+		</div>
+		<div class="carousel-box">
+			<div id="carousel-5"></div>
+		</div>
+		<div class="carousel-box">
+			<div id="carousel-8"></div>
+		</div>
+	</div>
+	<div class="carousel-container-5">
+		<div class="carousel-box">
+			<div id="carousel-6"></div>
+		</div>
+		<div class="carousel-box">
+			<div id="carousel-7"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="./dist/carousel-pro.js"></script>
+	<script type="text/javascript">
+		window.onload = function () {
+			var datas_1 = [
+				{ src: './src/img/01.jpg', alt: '01', background: '#efefef', href: 'http://www.google.com' },
+				{ src: './src/img/02.jpg', alt: '02', background: '#efefef', href: 'http://www.sina.com' },
+				{ src: './src/img/03.jpg', alt: '03', background: '#efefef', href: 'http://www.qq.com' },
+				{ src: './src/img/04.jpg', alt: '04', background: '#efefef', href: 'http://www.baidu.com' },
+				{ src: './src/img/05.jpg', alt: '05', background: '#efefef', href: 'http://www.taobao.com' }
+			];
+			var datas_2 = [
+				{ src: './src/img/03.jpg', alt: '03', background: '#efefef', href: 'http://www.google.com' },
+				{ src: './src/img/04.jpg', alt: '04', background: '#efefef', href: 'http://www.google.com' },
+				{ src: './src/img/05.jpg', alt: '05', background: '#efefef', href: 'http://www.google.com' }
+			];
+			var datas_3 = [
+				{ src: './src/img/06.jpg', alt: '06', background: '#efefef', href: 'http://www.google.com' },
+				{ src: './src/img/07.jpg', alt: '07', background: '#efefef', href: 'http://www.google.com' }
+			];
+			var datas_4 = [
+				{ src: './src/img/07.jpg', alt: '08', background: '#efefef', href: 'http://www.google.com' }
+			];
+			var datas_5 = [
+				{ background: 'url(./src/img/01.jpg) no-repeat center/cover', alt: '01', src: '你好', href: 'http://www.google.com' },
+				{ background: 'url(./src/img/02.jpg) no-repeat center/cover', alt: '02', src: 'Hello World', href: 'http://www.sina.com' },
+				{ background: 'url(./src/img/03.jpg) no-repeat center/cover', alt: '03', src: 'Olá Mundo', href: 'http://www.qq.com' },
+				{ background: 'url(./src/img/04.jpg) no-repeat center/cover', alt: '04', src: 'Привет  мир ', href: 'http://www.baidu.com' },
+				{ background: 'url(./src/img/05.jpg) no-repeat center/cover', alt: '05', src: '안녕하세요, 세계', href: 'http://www.taobao.com' }
+			];
+			var datas_6 = [
+				{ background: 'green no-repeat fixed', alt: '01', src: '你好', href: 'http://www.google.com' },
+				{ background: 'pink url(./src/img/06.jpg) no-repeat center/cover', alt: '02', src: 'Hello World', href: 'http://www.sina.com' },
+				{ background: 'yellow no-repeat fixed', alt: '03', src: 'Olá Mundo', href: 'http://www.qq.com' },
+				{ background: 'orange url(./src/img/07.jpg) no-repeat center/cover', alt: '04', src: 'Привет  мир ', href: 'http://www.baidu.com' },
+				{ background: 'purple no-repeat fixed', alt: '05', src: '안녕하세요, 세계', href: 'http://www.taobao.com' }
+			];
+			var datas_7 = [
+				'./src/img/01.jpg', './src/img/02.jpg', './src/img/03.jpg'
+			];
+
+
+
+			var c_1 = Carousel.on('carousel-1', 'h', {
+				// 数据
+				datas: datas_1,
+				// 是否是文本轮播
+				isText: false,
+				// 是否自动播放
+				auto: false,
+				// 初始显示图片下标
+				index: 0,
+				// 分页容器
+				pager: 'pager-container-1',
+				// 分页配置属性
+				pagerCon: {
+					active: 'url(./src/img/01.jpg)',
+					// mouseover|mouseenter事件时 如果想要避免出现闪烁
+					// 请缩短animate时间
+					event: 'mouseenter',
+					// 分页是否具有控制力
+					ctrl: true,
+					// 分页事件触发延时 ms
+					delay: 30
+				},
+				// 分页样式
+				pagerStyle: {
+					display: 'inline-block',
+					background: '#ddd',
+					width: '30px',
+					height: '30px',
+					borderRadius: '50%',
+					margin: '10px 4px',
+					cursor: 'pointer'
+				},
+				// 首尾补充图片个数 [1, datas.length]
+				overCount: 2,
+				// 图片停留时间 最小值为 1
+				// 注意 自动播放间隔设置为 speed+animate
+				speed: 2200,
+				// 图片过度时间
+				animate: 1200,
+				// 过渡类型 [fade|slide]
+				animateType: 'slide',
+				// 起始淡入效果
+				delay: 300,
+				// 内部绑定按钮 - 上一个
+				prev: 'prev-1',
+				// 内部绑定按钮 - 下一个
+				next: 'next-1',
+				// 轮播方向
+				direction: 'right',
+				// 自定义内容
+				custom: ['<h1>Hello world 1</h1>', '<h2>Hello world 2</h2>', '<h3>Hello world 3</h3>', '<h4>Hello world 4</h4>', '<h5>Hello world 5</h5>', '<input type="text" value="123">', '<input type="password" value="456">'],
+				//遮罩层配置属性
+				maskCon: {
+					// 遮罩层背景
+					background: 'rgba(0, 0, 0, .5)',
+					// 是否具有切换功能
+					ctrl: true,
+					// 遮罩部分(非当前显示轮播)链接功能是否激活
+					// true 为激活 即每一个轮播都可以直接点击跳转链接
+					link: false
+				}
+			});
+
+			c_1.prev('prev-out-1');
+			c_1.next('next-out-1');
+			c_1.stop('stop-1');
+			c_1.play('play-1');
+
+			var c_2 = Carousel.on('carousel-2', 'h', {
+				datas: datas_2,
+				animateType: 'fade',
+				delay: 600
+			});
+			c_2.stop('stop-2');
+			c_2.play('play-2');
+
+			var c_3 = Carousel.on('carousel-3', {
+				datas: datas_1,
+				overCount: 2,
+				height: 300,
+				delay: 900,
+				maskCon: {
+					background: 'rgba(0, 0, 0, .9)'
+				}
+			});
+			c_3.prev('prev-3');
+			c_3.next('next-3');
+
+			var c_4 = Carousel.on('carousel-4', {
+				datas: datas_3,
+				height: 300,
+				speed: 2000,
+				maskCon: {
+					background: 'rgba(0, 0, 0, 0)',
+					ctrl: false
+				},
+				hoverStop: false,
+				delay: 1200
+			});
+			var c_5 = Carousel.on('carousel-5', {
+				datas: datas_4,
+				height: 300,
+				direction: 'left',
+				maskCon: {
+					background: 'rgba(0, 0, 0, 0)',
+					ctrl: false
+				},
+				hoverStop: false,
+				delay: 1200
+			});
+			var c_8 = Carousel.on('carousel-8', {
+				datas: datas_7,
+				height: 300,
+				delay: 1200
+			});
+
+			var c_6 = Carousel.on('carousel-6', {
+				datas: datas_5,
+				isText: true,
+				overCount: 2,
+				height: 300,
+				maskCon: {
+					background: 'rgba(0, 0, 0, 0)',
+					ctrl: false
+				},
+				delay: 1500
+			});
+
+			var c_7 = Carousel.on('carousel-7', {
+				datas: datas_6,
+				isText: true,
+				textStyle: {
+					fontSize: '30px',
+					color: 'pink',
+					marginTop: '100px'
+				},
+				overCount: 2,
+				height: 300,
+				maskCon: {
+					background: 'rgba(0, 0, 0, 0)',
+					ctrl: false
+				},
+				delay: 1500
+			});
+		}
+	</script>
+</body>
+</html>

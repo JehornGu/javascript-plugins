@@ -2,7 +2,7 @@
 	var ShareDialog = function (json) {
 		if (this instanceof ShareDialog) {
 			this.author = 'Jehorn';
-			this.version = '0.0.1';
+			this.version = '1.0.0';
 
 		    // 分享插件平台
             // 0: JiaThis, 1: baidu

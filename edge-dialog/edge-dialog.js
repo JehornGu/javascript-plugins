@@ -2,7 +2,7 @@
  * EdgeDialog
  * Description A dialog box pops up from the edge
  * Author      Jehorn
- * Version     0.0.1
+ * Version     1.0.0
  * @param  {Object} window     The object of window
  * @param  {Object} document   The object of document
  * @return {Object} EdgeDialog The EdgeDialog bind to window

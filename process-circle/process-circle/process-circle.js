@@ -2,7 +2,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof processCircle) {
             this.author = 'Jehorn';
-            this.version = '0.0.1';
+            this.version = '1.0.0';
 
             // 进度条的宽/高
             this.size = json.size || 100;
