@@ -24,6 +24,8 @@
 		<button id="stop-1">STOP</button>
 		<button id="prev-out-1">PREV - OUT</button>
 		<button id="next-out-1">NEXT - OUT</button>
+		<input type="text" name="goto-1" value="0">
+		<button id="go-1">GO</button>
 	</div>
 	<div class="carousel-container-2">
 		<div id="carousel-2"></div>
@@ -97,7 +99,7 @@
 			];
 
 
-
+			// Demo 常用参数
 			var c_1 = Carousel.on('carousel-1', 'h', {
 				// 数据
 				datas: datas_1,
@@ -111,7 +113,15 @@
 				pager: 'pager-container-1',
 				// 分页配置属性
 				pagerCon: {
-					active: 'url(./src/img/01.jpg)',
+					// 传字符串所有激活样式统一设置
+					// 传数组按照数组下标设置(对应原始轮播数组datas下标)
+					active: [
+						'#ff5f00 url(./src/img/01.jpg) no-repeat center/cover',
+						'#ff5f00 url(./src/img/02.jpg) no-repeat center/cover',
+						'#ff5f00 url(./src/img/03.jpg) no-repeat center/cover',
+						'#ff5f00 url(./src/img/04.jpg) no-repeat center/cover',
+						'#ff5f00 url(./src/img/05.jpg) no-repeat center/cover'
+					],
 					// mouseover|mouseenter事件时 如果想要避免出现闪烁
 					// 请缩短animate时间
 					event: 'mouseenter',
@@ -146,9 +156,9 @@
 				// 内部绑定按钮 - 下一个
 				next: 'next-1',
 				// 轮播方向
-				direction: 'right',
+				direction: 'top',
 				// 自定义内容
-				custom: ['<h1>Hello world 1</h1>', '<h2>Hello world 2</h2>', '<h3>Hello world 3</h3>', '<h4>Hello world 4</h4>', '<h5>Hello world 5</h5>', '<input type="text" value="123">', '<input type="password" value="456">'],
+				custom: ['<h1>Hello world 1</h1>', '<h2>Hello world 2</h2>', '<h3>Hello world 3</h3>', '<h4>Hello world 4</h4>', '<h5>Hello world 5</h5>'],
 				//遮罩层配置属性
 				maskCon: {
 					// 遮罩层背景
@@ -165,6 +175,11 @@
 			c_1.next('next-out-1');
 			c_1.stop('stop-1');
 			c_1.play('play-1');
+			var go_1 = document.querySelector('#go-1');
+			go_1.onclick = function () {
+				var index = document.querySelector('input[name="goto-1"]').value;
+				c_1.go(index);
+			}
 
 			var c_2 = Carousel.on('carousel-2', 'h', {
 				datas: datas_2,

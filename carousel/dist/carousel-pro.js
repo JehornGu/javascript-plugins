@@ -1,17 +1,25 @@
 /**
  * Carousel Pro
- * Version 1.0.0
+ * Version 1.1.0
  */
 ; (function (window, document) {
 	// 初始化参数
 	// @param  {Object} options 轮播参数
 	// @return {Object}         初始化操作后的轮播参数
 	var Init = function (options) {
+		// return
 		var obj = {};
 
-		// 原始图片路径数组
+		// const
+		// 过渡效果
+		var ANIMATIONS  = ['slide', 'fade'];
+		// 轮播方向
+		var DIRECTIONS = ['right', 'left'];
+
+		// {Array} 原始图片路径数组
 		obj.datas     = options.datas;
-		// 渲染超过个数 默认为 1 表示首尾各多添加一个 最小为 1 最大为 obj.datas.length
+		// 渲染超过个数 默认为 1 表示首尾各多添加一个
+		// 最小为 1, 最大为 obj.datas.length
 		obj.overCount = parseInt(options.overCount) || 1;
 		obj.overCount < 1 ? obj.overCount = 1 : obj.overCount;
 		obj.overCount > obj.datas.length ? obj.overCount = obj.datas.length : obj.overCount;
@@ -28,8 +36,8 @@
 			obj.renderDatas.push(next);
 		}
 
-		// 创建文字轮播 将会创建指定宽高背景色内容的轮播
-		// 设置此项将会使轮播以字符串显示 datas 数组中的内容
+		// 创建文字轮播 将会创建指定宽高背景内容的轮播
+		// 设置此项将会使轮播以字符串显示 datas 数组src中的内容
 		// 必须设置为布尔值 ture 起效
 		obj.isText      = options.isText === true ? true : false;
 		// 如果显示文字轮播
@@ -47,7 +55,7 @@
 			lineHeight: '30px',
 			textDecoration: 'none'
 		}
-		obj.text        = options.text || 'carousel';
+
 		// 轮播元素背景 {String}
 		// string 时所有轮播元素为一种背景
 		// 如果想要不同背景 请在 datas 属性添加 background
@@ -104,9 +112,13 @@
 		obj.animate     = options.animate || 600;
 		obj.animate < 1 ? obj.animate = 1 : obj.animate;
 		// 过渡效果类型(slide|fade)
+
 		obj.animateType = options.animateType || 'slide';
+		ANIMATIONS.indexOf(obj.animateType) > -1 ? obj.animateType : obj.animateType = ANIMATIONS[0];
 		// 图片轮播方向自(left|right)
+
 		obj.direction   = options.direction || 'right';
+		DIRECTIONS.indexOf(obj.direction) > -1 ? obj.direction : obj.direction = DIRECTIONS[0];
 		// 轮播高度
 		obj.height      = options.height || 300;
 		// 图片高度 请自行指定单位
@@ -156,7 +168,6 @@
 			link: false
 		}
 
-
 		return obj;
 	}
 
@@ -189,7 +200,7 @@
                	return transitions[t];
            	}
        	}
-   	}
+	}
 
    	// 类的继承通用方法
    	var extend = function (Child, Parent) {
@@ -197,7 +208,7 @@
 　　　　F.prototype = Parent.prototype;
 　　　　Child.prototype = new F();
 　　　　Child.prototype.constructor = Child;
-　　　　Child.uber = Parent.prototype; // uber 是某些人在模拟 class 时用来表示 super 的(因为super是关键字所以不能直接用)
+　　　　Child.uber = Parent.prototype; // uber 是在模拟 class 时用来表示 super 的(因为super是关键字所以不能直接用)
 　　}
 
 	// 判断对象是否是DOM节点
@@ -385,8 +396,6 @@
 
 	}
 
-	extend(SlideAnimate, Animation);
-
 	// 淡入淡出效果
 	// @param  {Object} self  轮播类 this 指针
 	// @param  {Number} index 将要改变到的下标(相对于原始数组而言)
@@ -424,6 +433,7 @@
 		});
 	}
 
+	extend(SlideAnimate, Animation);
 	extend(FadeAnimate, Animation);
 
 	// 轮播容器处理
@@ -572,12 +582,14 @@
 	}
 
 	// 判断下标是否超出范围
+	// 小于最小值返回最后一个，反之
 	var currentRange = function (crt, len) {
 		var current = parseInt(crt);
 		var length = parseInt(len);
 
 		current < 0 ? current = length - 1 : current;
 		current > length - 1 ? current = 0 : current;
+		isNaN(current) ? current = 0 : current;
 
 		return current;
 	}
@@ -637,6 +649,33 @@
 		}, 300);
 	}
 
+	// 分页事件
+	// @param  {Object} self     轮播实例
+	// @param  {Object|Number} e 事件对象或者请求下标
+	// @return {void}
+	var pagerChange = function (self, e) {
+		var index;
+		if (e.target) {
+			if (!e.target.dataset) index = e.target.title;
+			else index = e.target.dataset.id;
+			var pagerSiblings = e.target.parentNode.childNodes;
+			for (var i = 0; i < pagerSiblings.length; i++) {
+				pagerSiblings[i].style.background = self.opts.pagerStyle.background;
+			}
+			index = parseInt(index);
+
+			self.opts.pagerCon.active[index] ?
+			e.target.style.background = self.opts.pagerCon.active[index] :
+			e.target.style.background = self.opts.pagerCon.active;
+		} else {
+			index = e;
+		}
+		index = parseInt(index);
+
+		if (self.opts.animateType === 'slide') new SlideAnimate(self, index);
+		if (self.opts.animateType === 'fade') new FadeAnimate(self, index);
+	}
+
 	// 创建轮播分页
 	// @param  {object} pagerContainer 分页容器
 	// @param  {object} self           调用方的this
@@ -659,23 +698,6 @@
 		var pagerDelay  = self.opts.pagerCon.delay;
 		var pagerStyle  = self.opts.pagerStyle;
 
-		// 分页点击事件
-		var change = function (current, e) {
-			var id;
-			if (!span.dataset) id = e.target.title;
-			else id = e.target.dataset.id;
-			var index = parseInt(id);
-
-			var pagerSiblings = e.target.parentNode.childNodes;
-			for (var i = 0; i < pagerSiblings.length; i++) {
-				pagerSiblings[i].style.background = pagerStyle.background;
-			}
-			e.target.style.background = self.opts.pagerCon.active;
-
-			if (animateType === 'slide') new SlideAnimate(self, index);
-			if (animateType === 'fade') new FadeAnimate(self, index);
-		}
-
 		// 循环原始数组 一图对应一分页
 		for (var i = 0; i < arr.length; i++) {
 			var span = document.createElement('span');
@@ -692,7 +714,10 @@
 			else span.dataset.id          = i;
 
 			// 初始化样式
-			current === i ? span.style.background = active : '';
+			if (current === i)
+			active[i] ?
+			span.style.background = active[i] :
+			span.style.background = active;
 
 			// 绑定分页控制事件
 			var timer;
@@ -701,7 +726,7 @@
 					timer = setTimeout(function () {
 						// 重置计数器
 						changeResetPlay(self);
-						change(current, e);
+						pagerChange(self, e);
 					}, pagerDelay);
 				});
 
@@ -729,7 +754,12 @@
 		for (var i = 0;i < itemsPager.length; i++) {
 			itemsPager[i].style.background = normal;
 			if (self.watchObj.current === i) {
+				active[i] ?
+				itemsPager[i].style.background = active[i] :
 				itemsPager[i].style.background = active;
+				//if (typeof active === 'string')	itemsPager[i].style.background = active;
+				//if (typeof active === 'object' && active.length) itemsPager[i].style.background = active[i];
+
 			}
 		}
 	}
@@ -910,6 +940,12 @@
 			stopPlay(self);
 		}
 		publicBtnEvent(btn, success);
+	}
+
+	Horizontal.prototype.go   = function (index) {
+		index = currentRange(index, this.datas.length);
+		// 跳转指定分页
+		pagerChange(this, index);
 	}
 
 	// 纵向轮播类
