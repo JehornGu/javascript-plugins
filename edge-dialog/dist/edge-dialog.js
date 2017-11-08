@@ -2,7 +2,7 @@
  * Edge Dialog
  * @file    Edge Dialog Plugin
  * @author  Jehorn(gerardgu@outlook.com)
- * @version 2.0.0
+ * @version 2.0.1
  * warnings:
  * 1. 如果要在对话框中再次添加对话框，请在父类对话框的单次执行方法(afterCreate)中声明
  * 而且子对话框必须指定遮罩层id(mask.id)和对话框id(id)，否则会出现累次叠加的问题.
@@ -60,6 +60,7 @@
 		options.delay = options.delay || 30;
 		options.callback = options.callback || function() {};
 		options.afterCreate = options.afterCreate || function() {};
+		options.beforeClose = options.beforeClose || function() {};
 
 		return options;
 	}
@@ -196,7 +197,9 @@
 			this.isContainer ? console.error('Container id: ' + this.id + ' had been used!') : this.doms.mask.appendChild(this.doms.container);
 
 			// 此处DOM创建完毕 执行 afterCreate 方法
-			counter === 0 ? opts.afterCreate() : '';
+			if (typeof opts.afterCreate === 'function') {
+				counter === 0 ? opts.afterCreate() : '';
+			}
 
 			// 定位
 			this.position();
@@ -225,6 +228,9 @@
 			var timer;
 			var container = document.getElementById(self.id);
 			var mask = document.getElementById(self.doms.maskId);
+
+			// 自定义关闭前执行方法
+			typeof opts.beforeClose === 'function' ? opts.beforeClose() : '';
 
 			if (container) {
 				container.className = 'dialog-animate ' + self.fadeOutType;
