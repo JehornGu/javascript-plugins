@@ -2,7 +2,7 @@
  * Edge Dialog
  * @file    Edge Dialog Plugin
  * @author  Jehorn(gerardgu@outlook.com)
- * @version 2.0.1
+ * @version 2.0.2
  * warnings:
  * 1. 如果要在对话框中再次添加对话框，请在父类对话框的单次执行方法(afterCreate)中声明
  * 而且子对话框必须指定遮罩层id(mask.id)和对话框id(id)，否则会出现累次叠加的问题.
@@ -61,6 +61,10 @@
 		options.callback = options.callback || function() {};
 		options.afterCreate = options.afterCreate || function() {};
 		options.beforeClose = options.beforeClose || function() {};
+		// 指定父容器 ducoment.querySelector('#[supContainer]')
+		options.wrapper = options.wrapper || document.body;
+		// 自动绑定事件
+		options.auto === false ? options.auto = false : options.auto = true;
 
 		return options;
 	}
@@ -107,12 +111,12 @@
 	 * Create DOM
 	 * @param  {string} target 指定容器
 	 * @return {Object} object  返回对象
-	 * @return {Object} object.body       返回对象 document.body
+	 * @return {Object} object.body       返回对象 父容器
 	 * @return {Object} object.container  返回对象 dialog wrapper
 	 * @return {Object} object.mask       返回对象 dialog 遮罩层
 	 */
 	var create = function(opts) {
-		var body = document.body;
+		var body = opts.wrapper;
 		var container = document.createElement('div');
 		var containerId = opts.id;
 		var mask = document.createElement('div');
@@ -450,7 +454,8 @@
 
 				bindDialog.push(bindObj);
 
-				box.addEventListener('click', bindDialog[counter].fn);
+				if (options.auto)
+					box.addEventListener('click', bindDialog[counter].fn);
 
 				count++;
 				counter++;
@@ -476,6 +481,7 @@
 		 * Remove Event Listener
 		 */
 		off: function(target, uid) {
+			if (uid === '' || uid == null) return;
 			var box = document.getElementById(target) ||
 				document.getElementsByClassName(target)[0];
 			box.removeEventListener('click', bindDialog[uid].fn);
@@ -484,6 +490,7 @@
 		 * Active Event Listener
 		 */
 		active: function(target, uid) {
+			if (uid === '' || uid == null) return;
 			var box = document.getElementById(target) ||
 				document.getElementsByClassName(target)[0];
 			box.addEventListener('click', bindDialog[uid].fn);
