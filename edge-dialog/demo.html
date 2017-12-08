@@ -43,6 +43,9 @@
 	<script type="text/javascript" src="./dist/edge-dialog.js"></script>
 
 	<script type="text/javascript">
+		window.onbeforeunload = function() {
+			console.log('你确定要离开吗');
+		}
 		window.onload = function () {
 			var dialog2;
 			var dialog = EdgeDialog.on('userImg', 'bottom', {
