@@ -2,7 +2,7 @@
  * Edge Dialog
  * @file    Edge Dialog Plugin
  * @author  Jehorn(gerardgu@outlook.com)
- * @version 2.0.2
+ * @version 2.0.3
  * warnings:
  * 1. 如果要在对话框中再次添加对话框，请在父类对话框的单次执行方法(afterCreate)中声明
  * 而且子对话框必须指定遮罩层id(mask.id)和对话框id(id)，否则会出现累次叠加的问题.
@@ -13,10 +13,9 @@
  */
 ;
 (function(factory) {
-	// FIXME Type of AMD / CommonJS Maybe cannot work.
 	if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module.
-		define(['document', 'window'], factory);
+		define(factory(document, window));
 	} else if (typeof exports === 'object') {
 		// Node/CommonJS
 		factory(require('document'), require('window'));
@@ -558,5 +557,11 @@
 		}
 	}
 
-	window.EdgeDialog = EdgeDialog;
+	if (typeof module != 'undefined' && module.exports) {
+        module.exports = EdgeDialog;
+    } else if (typeof define == 'function' && define.amd) {
+        define(function () { return EdgeDialog; });
+    } else {
+        window.EdgeDialog = EdgeDialog;
+    }
 }));
