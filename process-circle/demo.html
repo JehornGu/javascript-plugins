@@ -49,12 +49,18 @@
 	<div id="processCircle3"></div>
 	<div id="processCircle4"></div>
 	<div id="processCircle5"></div>
+	
+	<div class="process-circle"></div>
+	<div class="process-circle"></div>
+	<div class="process-circle"></div>
+	<div class="process-circle"></div>
+	<div class="process-circle"></div>
 
     <script type="text/javascript" src="./process-circle/process-circle.js"></script>
     <script type="text/javascript">
         window.onload = function () {
             var process = new ProcessCircle({
-				id: 'processCircle',
+				selector: '#processCircle',
                 size: 150,
                 num: 68.9,
                 speed: 5,
@@ -66,8 +72,22 @@
 				append: '投资进度'
             });
 			
+			var process_6 = new ProcessCircle({
+				debug: true,
+                selector: '.process-circle',
+                size: [166, 200, 300],
+                borderSize: [8, 12, 4],
+                num: [68.9, 72.3, 24.2],
+                speed: [5, 10, 25],
+                textColor: ['#cbb99e', '#003f84', '#e14651'],
+                borderType: ['solid', 'dotted', 'dashed'],
+                borderColor: ['#cbb99e', '#003f84', '#e14651'],
+                borderBgColor: '#eeefef',
+                append: ['投资进度 - 1', '投资进度 - 2', '投资进度 - 3']
+            });
+			
 			var process_2 = new ProcessCircle({
-				id: 'processCircle2',
+				selector: '#processCircle2',
                 size: 140,
                 num: 50,
                 speed: 5,
@@ -81,7 +101,7 @@
             });
 			
 			var process3 = new ProcessCircle({
-				id: 'processCircle3',
+				selector: '#processCircle3',
                 size: 130,
                 num: 100,
                 speed: 5,
@@ -94,7 +114,7 @@
             });
 			
 			var process_4 = new ProcessCircle({
-				id: 'processCircle4',
+				selector: '#processCircle4',
                 size: 120,
                 num: 0,
                 speed: 5,
@@ -107,7 +127,7 @@
             });
 			
 			var process_5 = new ProcessCircle({
-				id: 'processCircle5',
+				selector: '#processCircle5',
                 size: 110,
                 num: 98,
                 speed: 5,

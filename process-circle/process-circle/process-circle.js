@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.2.0
+ * @version 1.3.0
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  */
@@ -10,7 +10,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.2.0';
+            this.version = '1.3.0';
 			
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -25,8 +25,8 @@
             // 动画速度 毫秒
             this.speed = json.speed || 10;
 
-            // 容器的 id
-            this.id = json.id || 'processCircle';
+            // 容器的 选择器
+            this.selector = json.selector || '.process-circle';
             // 是否显示调试信息
             this.debug = json.debug === true ? true : false;
             // 是否显示中间的百分比信息
@@ -161,7 +161,22 @@
     }
 
 	
-	var utils = new (function () {
+    var utils = new (function () {
+        // 是否非空数组
+        this.isArray = function (attr, callback) {
+            var isArr = false;
+            callback = typeof callback === 'function' ? callback : function () { };
+            if (typeof attr === 'object' && attr.length) {
+                isArr = true;
+                callback(isArr);
+            } else {
+                isArr = false;
+                callback(isArr);
+            }
+
+            return isArr;
+        }
+
 		// 设置dom的className
 		this.setClasses = function (ele, classnames) {
 			var classes = '';
@@ -175,15 +190,29 @@
 			
 			ele.className = classes;
 		}
-		
+
+        // 设置dom的style
 		this.setStyles = function (ele, styles) {
 			if (typeof styles === 'object' && !styles.length) {
 				for (var style in styles) {
 					ele.style[style] = styles[style];
 				}
 			}
-		}
-		
+        }
+
+        this.getText = function (attr, index) {
+            var text;
+            if (typeof attr === 'object' && attr.length && attr[index]) {
+                text = attr[index];
+            } else if (typeof attr === 'object' && attr.length) {
+                text = attr[0];
+            } else {
+                text = attr;
+            }
+
+            return text;
+        }
+        
 		// CSS3 transform 兼容性设置
 		this.transformCompatibility = function (ele, value) {
 			ele.style.transform = value;
@@ -204,52 +233,118 @@
 			var units = ['px', 'em', 'rem'];
 			var borderStyle = ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'inherit'];
 
-			if (!floatPlus.test(_this.size)) {
-				var error = { param: 'size', msg: '请设置为非负数字' };
-				errors.push(error);
-			}
-			if (!floatPlus.test(_this.borderSize)) {
-				var error = { param: 'borderSize', msg: '请设置为非负数字' };
-				errors.push(error);
-			}
-			if (!floatPlus.test(_this.textSize)) {
-				var error = { param: 'textSize', msg: '请设置为非负数字' };
-				errors.push(error);
-			}
+            var checkIsArrAttr = function (attr, check) {
+                utils.isArray(attr, function (isArr) {
+                    if (isArr) {
+                        for (var len = attr.length, i = len - 1; i >= 0; i--) {
+                            check(attr[i]);
+                        }
+                    } else {
+                        check(attr);
+                    }
+                });
+            }
+            
 			if (units.indexOf(_this.unit) < 0) {
 				var error = { param: 'unit', msg: '属性包括[\'px\', \'em\', \'rem\']' };
 				errors.push(error);
-			}
-			if (_this.num.toString().indexOf('%') > -1) {
-				var num = _this.num.toString().substring(0, _this.num.toString().indexOf('%'));
-				_this.num = num;
-				debug(_this, { info: 'num: Get value before the \'%\': ', type: 'log' });
-			}
-			if (!floatPlus.test(_this.num)) {
-				var error = { param: 'num', msg: '请设置为非负数字' };
-				errors.push(error);
-			}
-			if (!float.test(_this.speed)) {
-				var error = { param: 'speed', msg: '属性请设置为数字' };
-				errors.push(error);
-			}
-			if (!color.test(_this.textColor)) {
-				var error = { param: 'textColor', msg: '请正确设置\'textColor\'属性的16进制颜色值' };
-				errors.push(error);
-			}
-			if (!color.test(_this.borderColor)) {
-				var error = { param: 'borderColor', msg: '请正确设置\'borderColor\'属性的16进制颜色值' };
-				errors.push(error);
-			}
-			if (!color.test(_this.borderBgColor)) {
-				var error = { param: 'borderBgColor', msg: '请正确设置\'borderBgColor\'属性的16进制颜色值' };
-				errors.push(error);
-			}
-			if (borderStyle.indexOf(_this.borderType) < 0) {
-				var error = { param: 'borderStyle', msg: '请正确设置\'borderStyle\'属性的属性值, 具体属性请参考 http://www.w3school.com.cn/cssref/pr_border-style.asp' };
-				errors.push(error);
-			}
+            }
+            
+            // size
+            var checkSize = function (size) {
+                if (!floatPlus.test(size)) {
+                    var error = { param: 'size', msg: '请设置为非负数字' };
+                    errors.push(error);
+                }
+            }
 
+            checkIsArrAttr(_this.size, checkSize);
+
+            // borderSize
+            var checkBorderSize = function (borderSize) {
+                if (!floatPlus.test(borderSize)) {
+                    var error = { param: 'borderSize', msg: '请设置为非负数字' };
+                    errors.push(error);
+                }
+            }
+
+            checkIsArrAttr(_this.borderSize, checkBorderSize);
+            
+            // textSize
+            var checkTextSize = function (textSize) {
+                if (!floatPlus.test(textSize)) {
+                    var error = { param: 'textSize', msg: '请设置为非负数字' };
+                    errors.push(error);
+                }
+            }
+
+            checkIsArrAttr(_this.textSize, checkTextSize);
+
+            // num
+            var checkNum = function (percent) {
+                if (percent.toString().indexOf('%') > -1) {
+                    var num = percent.toString().substring(0, _this.num.toString().indexOf('%'));
+                    percent = num;
+                    debug(_this, { info: 'num: Get value before the \'%\': ', type: 'log' });
+                }
+                if (!floatPlus.test(percent)) {
+                    var error = { param: 'num', msg: '请设置为非负数字' };
+                    errors.push(error);
+                }
+            }
+
+            checkIsArrAttr(_this.num, checkNum);
+
+            // speed
+            var checkSpeed = function (speed) {
+                if (!float.test(speed)) {
+                    var error = { param: 'speed', msg: '属性请设置为数字' };
+                    errors.push(error);
+                }
+            };
+
+            checkIsArrAttr(_this.speed, checkSpeed);
+			
+            // textColor
+            var checkTextColor = function (textColor) {
+                if (!color.test(textColor)) {
+                    var error = { param: 'textColor', msg: '请正确设置\'textColor\'属性的16进制颜色值' };
+                    errors.push(error);
+                }
+            };
+
+            checkIsArrAttr(_this.textColor, checkTextColor);
+			
+            // borderColor
+            var checkBorderColor = function (borderColor) {
+                if (!color.test(borderColor)) {
+                    var error = { param: 'borderColor', msg: '请正确设置\'borderColor\'属性的16进制颜色值' };
+                    errors.push(error);
+                }
+            };
+
+            checkIsArrAttr(_this.borderColor, checkBorderColor);
+
+            // borderBgColor
+            var checkBorderBgColor = function (BgColor) {
+                if (!color.test(BgColor)) {
+                    var error = { param: 'borderBgColor', msg: '请正确设置\'borderBgColor\'属性的16进制颜色值' };
+                    errors.push(error);
+                }
+            };
+
+            checkIsArrAttr(_this.borderBgColor, checkBorderBgColor);
+
+            // borderType
+            var checkBorderType = function (borderType) {
+                if (borderStyle.indexOf(borderType) < 0) {
+                    var error = { param: 'borderStyle', msg: '请正确设置\'borderStyle\'属性的属性值, 具体属性请参考 http://www.w3school.com.cn/cssref/pr_border-style.asp' };
+                    errors.push(error);
+                }
+            };
+
+            checkIsArrAttr(_this.borderType, checkBorderType);
+			
 			if (errors.length > 0) {
 				debug(_this, {
 					info: errors,
@@ -264,18 +359,7 @@
 	})();
 	
     // 创建DOM
-    var create = function (_this) {
-        var container = document.getElementById(_this.id);
-
-        if (!container) {
-            var error = { msg: '未选取到容器, 请传入正确的 id 字符串或者不传值使用默认 id: "processCircle".', type: 'error' }
-            debug(_this, {
-                info: error.msg,
-                type: error.type
-            });
-            return false;
-        }
-		
+    var create = function (_this, index) {
 		var docFragment = document.createDocumentFragment();
 		var class_names = constants.CLASS_NAME,
 			id_names = constants.ID_NAME;
@@ -287,10 +371,16 @@
 			left_in = document.createElement('div'),
 			prepend = document.createElement('span'),
 			percent = document.createElement('span'),
-			append = document.createElement('span');
-		var prepend_t = document.createTextNode(_this.prepend),
-			append_t = document.createTextNode(_this.append),
-			percent_t = document.createTextNode(constants.PERCENT_INIT);
+            append = document.createElement('span');
+
+        if (_this.counts > 1) {
+            var prepend_t = document.createTextNode(utils.getText(_this.prepend, index)),
+                append_t = document.createTextNode(utils.getText(_this.append, index));
+        } else {
+            var prepend_t = document.createTextNode(_this.prepend),
+                append_t = document.createTextNode(_this.append);
+        }
+        var percent_t = document.createTextNode(constants.PERCENT_INIT);
 		
 		utils.setClasses(right, [class_names.WRAPPER, class_names.RIGHT]);
 		utils.setClasses(left, [class_names.WRAPPER, class_names.LEFT]);
@@ -329,29 +419,29 @@
 			prepend: prepend,
 			append: append,
 			percent: percent,
-			container: container,
 			doc_fragment: docFragment
 		};
     }
 
     // 设置样式
     var setStyle = function (_this, doms) {
-        var wrapper_size = parseFloat(_this.size) / 2,
-			border_size = parseFloat(_this.borderSize),
-			circle_size = parseFloat(_this.size) - border_size * 2;
-        
-        var wrappers = [doms.right, doms.left],
-			circles = [doms.right_in, doms.left_in];
-        var bgBorder = _this.borderSize + _this.unit + ' ' + _this.borderType + ' ' + _this.borderBgColor;
-		
-		doms.container.className = 'circle-process';
-        doms.container.style.width = _this.size + _this.unit;
-        doms.container.style.height = _this.size + _this.unit;
-		doms.container.style.position = 'relative';
+        var wrapper_size_full = parseFloat(utils.getText(_this.size, doms.index)),
+            wrapper_size = wrapper_size_full / 2,
+            border_size = parseFloat(utils.getText(_this.borderSize, doms.index)),
+            circle_size = wrapper_size_full - border_size * 2,
+            border_type = utils.getText(_this.borderType, doms.index),
+            border_bg_color = utils.getText(_this.borderBgColor, doms.index),
+            border_color = utils.getText(_this.borderColor, doms.index),
+            text_size = utils.getText(_this.textSize, doms.index),
+            text_color = utils.getText(_this.textColor, doms.index);
 
+        var wrappers = [doms.right, doms.left],
+            circles = [doms.right_in, doms.left_in];
+        var bgBorder = border_size + _this.unit + ' ' + border_type + ' ' + border_bg_color;
+		
         for (var i = 0; i < wrappers.length; i++) {
             wrappers[i].style.width = wrapper_size + _this.unit;
-            wrappers[i].style.height = _this.size + _this.unit;
+            wrappers[i].style.height = wrapper_size_full + _this.unit;
 			wrappers[i].style.position = 'absolute';
 		    wrappers[i].style.top = '0';
 		    wrappers[i].style.overflow = 'hidden';
@@ -364,26 +454,32 @@
 		doms.right.style.right = '0';
 		doms.left.style.left = '0';
 
-        doms.right_in.style.borderTopColor = _this.borderColor;
-        doms.right_in.style.borderRightColor = _this.borderColor;
+        doms.right_in.style.borderTopColor = utils.getText(border_color, doms.index);
+        doms.right_in.style.borderRightColor = utils.getText(border_color, doms.index);
 		doms.right_in.style.right = '0';
-        doms.left_in.style.borderBottomColor = _this.borderColor;
-        doms.left_in.style.borderLeftColor = _this.borderColor;
+        doms.left_in.style.borderBottomColor = utils.getText(border_color, doms.index);
+        doms.left_in.style.borderLeftColor = utils.getText(border_color, doms.index);
 		doms.left_in.style.left = '0';
 		
 		utils.setStyles(doms.content, constants.CONTENT_STYLES);
-		doms.content.style.fontSize = _this.textSize + _this.unit;
-        doms.content.style.color = _this.textColor;
+        doms.content.style.fontSize = text_size + _this.unit;
+        doms.content.style.color = text_color;
 		
 		doms.prepend.style.display = 'block';
-		doms.append.style.display = 'block';
+        doms.append.style.display = 'block';
+
+        doms.container.className = 'circle-process';
+        doms.container.style.width = wrapper_size_full + _this.unit;
+        doms.container.style.height = wrapper_size_full + _this.unit;
+        doms.container.style.position = 'relative';
 		
 		doms.container.appendChild(doms.doc_fragment);
     }
 
     // 设置百分比
     var setPercent = function (_this, doms) {
-        var num = parseFloat(_this.num);
+        var num = parseFloat(utils.getText(_this.num, doms.index));
+        var speed = parseFloat(utils.getText(_this.speed, doms.index));
         var i = 0;
 
         var clock = window.setInterval(function () {
@@ -402,7 +498,7 @@
 				utils.transformCompatibility(doms.left_in, 'rotate(' + (-135 + 3.6 * (i - 50)) + 'deg)');
             }
 
-        }, _this.speed);
+        }, speed);
     }
 
     // 初始化
@@ -415,12 +511,28 @@
             return;
         }
 
-        var doms = create(this);
-        if (doms) {
-            setStyle(this, doms);
-            setPercent(this, doms);
+        var containers = document.querySelectorAll(this.selector);
+
+        if (!containers || !containers.length) {
+            var error = { msg: '未选取到容器, 请传入正确的 class或id选择器 字符串或者不传值使用默认 class: ".process-circle".', type: 'error' }
+            debug(_this, {
+                info: error.msg,
+                type: error.type
+            });
+            return false;
         }
-		
+
+        this.counts = containers.length;
+        for (var i = this.counts - 1; i >= 0; i--) {
+            var doms = create(this, i);
+            if (doms) {
+                doms.container = containers[i];
+                doms.index = i;
+                setStyle(this, doms);
+                setPercent(this, doms);
+            }
+        }
+        
 		return this;
     }
 
