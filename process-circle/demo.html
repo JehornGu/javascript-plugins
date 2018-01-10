@@ -3,34 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>Demo</title>
-    <link rel="stylesheet" href="./process-circle/process-circle.css">
-    <style type="text/css">
-        /*显示大小 width 3.917, 边框宽度 border 0.125*/
-
-        html {
-            font-size: 24px;
-        }
-
-        @-webkit-keyframes circle_right {
-            0% {
-                transform: rotate(-135deg);
-            }
-
-            50%, 100% {
-                transform: rotate(45deg);
-            }
-        }
-
-        @-webkit-keyframes circle_left {
-            0%, 50% {
-                transform: rotate(-135deg);
-            }
-
-            100% {
-                transform: rotate(45deg);
-            }
-        }
-    </style>
     <!-- <script type="text/javascript">
       var setPercent = function (num) {
         var rightcircle = document.getElementById('circleRight');
@@ -73,19 +45,79 @@
     </div> -->
 
     <div id="processCircle"></div>
+	<div id="processCircle2"></div>
+	<div id="processCircle3"></div>
+	<div id="processCircle4"></div>
+	<div id="processCircle5"></div>
 
     <script type="text/javascript" src="./process-circle/process-circle.js"></script>
     <script type="text/javascript">
         window.onload = function () {
-            processCircle({
-                debug: true,
-                num: 99.2,
-                size: 94,
+            var process = new ProcessCircle({
+				id: 'processCircle',
+                size: 150,
                 num: 68.9,
-                speed: 10,
+                speed: 5,
                 textColor: '#123',
-                borderType: 'solid'
-            }).init()
+                borderType: 'solid',
+				borderColor: '#666',
+				borderBgColor: '#dddddd',
+				borderSize: 5,
+				append: '投资进度'
+            });
+			
+			var process_2 = new ProcessCircle({
+				id: 'processCircle2',
+                size: 140,
+                num: 50,
+                speed: 5,
+                textColor: '#123',
+                borderType: 'solid',
+				borderColor: '#666',
+				borderBgColor: '#dddddd',
+				borderSize: 5,
+				append: '投资进度',
+				textSize: '12'
+            });
+			
+			var process3 = new ProcessCircle({
+				id: 'processCircle3',
+                size: 130,
+                num: 100,
+                speed: 5,
+                textColor: '#123',
+                borderType: 'solid',
+				borderColor: '#666',
+				borderBgColor: '#dddddd',
+				borderSize: 5,
+				append: '投资进度'
+            });
+			
+			var process_4 = new ProcessCircle({
+				id: 'processCircle4',
+                size: 120,
+                num: 0,
+                speed: 5,
+                textColor: '#123',
+                borderType: 'solid',
+				borderColor: '#666',
+				borderBgColor: '#dddddd',
+				borderSize: 5,
+				append: '投资进度'
+            });
+			
+			var process_5 = new ProcessCircle({
+				id: 'processCircle5',
+                size: 110,
+                num: 98,
+                speed: 5,
+                textColor: '#123',
+                borderType: 'solid',
+				borderColor: '#666',
+				borderBgColor: '#dddddd',
+				borderSize: 5,
+				append: '投资进度'
+            });
         }
     </script>
 </body>
