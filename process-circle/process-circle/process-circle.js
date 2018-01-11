@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.3.0
+ * @version 1.3.1
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  */
@@ -10,7 +10,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.3.0';
+            this.version = '1.3.1';
 			
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -515,7 +515,7 @@
 
         if (!containers || !containers.length) {
             var error = { msg: '未选取到容器, 请传入正确的 class或id选择器 字符串或者不传值使用默认 class: ".process-circle".', type: 'error' }
-            debug(_this, {
+            debug(this, {
                 info: error.msg,
                 type: error.type
             });
