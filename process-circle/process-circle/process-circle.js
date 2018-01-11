@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.3.3
+ * @version 1.3.4
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  */
@@ -10,7 +10,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.3.3';
+            this.version = '1.3.4';
 			
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -178,6 +178,15 @@
             return isArr;
         }
 
+        // 删除容器下的所有元素
+        this.delChildren = function (ele) {
+            if (!ele) return;
+            while (ele.hasChildNodes())
+            {
+                ele.removeChild(ele.firstChild);
+            }
+        }
+
 		// 设置dom的className
 		this.setClasses = function (ele, classnames) {
 			var classes = '';
@@ -201,6 +210,7 @@
 			}
         }
 
+        // 获取数组/字符串属性值
         this.getText = function (attr, index) {
             var text;
             if (typeof attr === 'object' && attr.length && attr[index]) {
@@ -472,7 +482,8 @@
         doms.container.style.width = wrapper_size_full + _this.unit;
         doms.container.style.height = wrapper_size_full + _this.unit;
         doms.container.style.position = 'relative';
-		
+
+        utils.delChildren(doms.container);
 		doms.container.appendChild(doms.doc_fragment);
     }
 
@@ -500,40 +511,42 @@
 
         }, speed);
     }
+    
+    ProcessCircle.prototype = {
+        // 初始化
+        init: function () {
+            var percent = this.num + '%';
 
-    // 初始化
-    ProcessCircle.prototype.init = function () {
-        var percent = this.num + '%';
+            var check = utils.checkParam(this);
 
-        var check = utils.checkParam(this);
-
-        if (!check) {
-            return;
-        }
-
-        var containers = document.querySelectorAll(this.selector);
-
-        if (!containers || !containers.length) {
-            var error = { msg: '未选取到容器, 请传入正确的 class或id选择器 字符串或者不传值使用默认 class: ".process-circle".', type: 'error' }
-            debug(this, {
-                info: error.msg,
-                type: error.type
-            });
-            return false;
-        }
-
-        this.counts = containers.length;
-        for (var i = this.counts - 1; i >= 0; i--) {
-            var doms = create(this, i);
-            if (doms) {
-                doms.container = containers[i];
-                doms.index = i;
-                setStyle(this, doms);
-                setPercent(this, doms);
+            if (!check) {
+                return;
             }
+
+            var containers = document.querySelectorAll(this.selector);
+
+            if (!containers || !containers.length) {
+                var error = { msg: '未选取到容器, 请传入正确的 class或id选择器 字符串或者不传值使用默认 class: ".process-circle".', type: 'error' }
+                debug(this, {
+                    info: error.msg,
+                    type: error.type
+                });
+                return false;
+            }
+
+            this.counts = containers.length;
+            for (var i = this.counts - 1; i >= 0; i--) {
+                var doms = create(this, i);
+                if (doms) {
+                    doms.container = containers[i];
+                    doms.index = i;
+                    setStyle(this, doms);
+                    setPercent(this, doms);
+                }
+            }
+
+            return this;
         }
-        
-		return this;
     }
 
     window.ProcessCircle = ProcessCircle;
