@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.3.1
+ * @version 1.3.2
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  */
@@ -10,7 +10,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.3.1';
+            this.version = '1.3.2';
 			
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -468,7 +468,6 @@
 		doms.prepend.style.display = 'block';
         doms.append.style.display = 'block';
 
-        doms.container.className = 'circle-process';
         doms.container.style.width = wrapper_size_full + _this.unit;
         doms.container.style.height = wrapper_size_full + _this.unit;
         doms.container.style.position = 'relative';
