@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.3.2
+ * @version 1.3.3
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  */
@@ -10,7 +10,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.3.2';
+            this.version = '1.3.3';
 			
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -30,7 +30,7 @@
             // 是否显示调试信息
             this.debug = json.debug === true ? true : false;
             // 是否显示中间的百分比信息
-            this.isText = json.isText || true;
+            this.isText = json.isText === false ? false : true;
             // 百分比信息颜色
             this.textColor = json.textColor || '#ff5f00';
             // 边框颜色
@@ -68,7 +68,8 @@
 			CONTENT: 'content',
 			CIRCLE: 'circle',
 			PREPEND: 'prepend',
-			APPEND: 'append'
+            APPEND: 'append',
+            PERCENT_SYMBOL: 'symbol-percent'
 		},
 		ID_NAME: {
 			RIGHT: 'circleRight',
@@ -394,9 +395,9 @@
 		left_in.id = id_names.LEFT + '_' + _counts;
 		percent.id = id_names.PERCENT + '_' + _counts;
 		
-		prepend.appendChild(prepend_t);
+        prepend.appendChild(prepend_t);
 		append.appendChild(append_t);
-		percent.appendChild(percent_t);
+        _this.isText ? percent.appendChild(percent_t) : '';
 		
 		right.appendChild(right_in);
 		left.appendChild(left_in);
@@ -467,7 +468,7 @@
 		
 		doms.prepend.style.display = 'block';
         doms.append.style.display = 'block';
-
+        
         doms.container.style.width = wrapper_size_full + _this.unit;
         doms.container.style.height = wrapper_size_full + _this.unit;
         doms.container.style.position = 'relative';
@@ -487,7 +488,7 @@
                 i = num;
                 window.clearInterval(clock);
             }
-            doms.percent.innerHTML = i + '%';
+            _this.isText ? doms.percent.innerHTML = i + '<span class="' + constants.CLASS_NAME.PERCENT_SYMBOL + '">%</span>' : '';
 
             if (i <= 50) {
 				utils.transformCompatibility(doms.right_in, 'rotate(' + (-135 + 3.6 * i) + 'deg)');
@@ -534,15 +535,6 @@
         
 		return this;
     }
-
-    // TODO: 动态引入样式表文件 - 暂有问题, 需要判断css加载完成
-    /* ProcessCircle.prototype.linkStyleSheet = function (url) {
-        var link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.type = "text/css";
-        link.href = url;
-        document.getElementsByTagName("head")[0].appendChild(link);
-    } */
 
     window.ProcessCircle = ProcessCircle;
 	
