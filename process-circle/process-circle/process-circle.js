@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.3.4
+ * @version 1.3.5
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  */
@@ -10,7 +10,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.3.4';
+            this.version = '1.3.5';
 			
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -69,7 +69,8 @@
 			CIRCLE: 'circle',
 			PREPEND: 'prepend',
             APPEND: 'append',
-            PERCENT_SYMBOL: 'symbol-percent'
+            PERCENT_SYMBOL: 'symbol-percent',
+            PERCENT_BOX: 'percent-box'
 		},
 		ID_NAME: {
 			RIGHT: 'circleRight',
@@ -399,7 +400,8 @@
 		utils.setClasses(right_in, class_names.CIRCLE);
 		utils.setClasses(left_in, class_names.CIRCLE);
 		utils.setClasses(prepend, class_names.PREPEND);
-		utils.setClasses(append, class_names.APPEND);
+        utils.setClasses(append, class_names.APPEND); 
+        utils.setClasses(percent, class_names.PERCENT_BOX);
 		
 		right_in.id = id_names.RIGHT + '_' + _counts;
 		left_in.id = id_names.LEFT + '_' + _counts;
@@ -499,7 +501,8 @@
                 i = num;
                 window.clearInterval(clock);
             }
-            _this.isText ? doms.percent.innerHTML = i + '<span class="' + constants.CLASS_NAME.PERCENT_SYMBOL + '">%</span>' : '';
+            // _this.isText ? doms.percent.innerHTML = i + '<span class="' + constants.CLASS_NAME.PERCENT_SYMBOL + '">%</span>' : '';
+            _this.isText ? doms.percent.innerHTML = i + '%' : '';
 
             if (i <= 50) {
 				utils.transformCompatibility(doms.right_in, 'rotate(' + (-135 + 3.6 * i) + 'deg)');
@@ -534,6 +537,7 @@
                 return false;
             }
 
+            this.containers = containers;
             this.counts = containers.length;
             for (var i = this.counts - 1; i >= 0; i--) {
                 var doms = create(this, i);
@@ -546,6 +550,16 @@
             }
 
             return this;
+        },
+
+        // TODO: 设置百分比
+        set: function (index) {
+            index = +index;
+            index = isNaN(index) ? 0 : index;
+
+            var percent = this.containers[index].querySelector('.' + constants.CLASS_NAME.PERCENT_BOX);
+
+            console.log(percent);
         }
     }
 
