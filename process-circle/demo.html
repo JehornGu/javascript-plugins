@@ -32,6 +32,11 @@
         i++;
       }, 1000);
     </script> -->
+    <style type="text/css">
+        body > div {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
     <!-- <div class="circle-process" id="processCircle">
@@ -53,8 +58,6 @@
 	<div class="process-circle"></div>
 	<div class="process-circle"></div>
 	<div class="process-circle"></div>
-	<div class="process-circle"></div>
-	<div class="process-circle"></div>
 
     <script type="text/javascript" src="./process-circle/process-circle.js"></script>
     <script type="text/javascript">
@@ -63,7 +66,7 @@
 				selector: '#processCircle',
                 size: 150,
                 num: 68.9,
-                speed: 5,
+                speed: 500,
                 textColor: '#123',
                 borderType: 'solid',
 				borderColor: '#666',
@@ -75,22 +78,27 @@
 			var process_6 = new ProcessCircle({
 				debug: true,
                 selector: '.process-circle',
-                size: [166, 200, 300],
-                borderSize: [8, 12, 4],
+                size: [165, 200, 300],
+                borderSize: [20, 12, 4],
                 num: [68.9, 72.3, 24.2],
-                speed: [5, 10, 25],
+                speed: [100, 600, 1000],
                 textColor: ['#cbb99e', '#003f84', '#e14651'],
                 borderType: ['solid', 'dotted', 'dashed'],
                 borderColor: ['#cbb99e', '#003f84', '#e14651'],
                 borderBgColor: '#eeefef',
-                append: ['投资进度 - 1', '投资进度 - 2', '投资进度 - 3']
+                append: ['投资进度 - 1', '投资进度 - 2', '投资进度 - 3'],
+                isInterval: true
             });
+
+			console.log(process_6);
+            process_6.set([0, 1], [20, 30]);
+            process_6.set(2, 70.2);
 			
 			var process_2 = new ProcessCircle({
 				selector: '#processCircle2',
                 size: 140,
                 num: 50,
-                speed: 5,
+                speed: 500,
                 textColor: '#123',
                 borderType: 'solid',
 				borderColor: '#666',
@@ -99,12 +107,14 @@
 				append: '投资进度',
 				textSize: '12'
             });
+
+            process_2.set(0, 70.2);
 			
 			var process3 = new ProcessCircle({
 				selector: '#processCircle3',
                 size: 130,
                 num: 100,
-                speed: 5,
+                speed: 500,
                 textColor: '#123',
                 borderType: 'solid',
 				borderColor: '#666',
@@ -117,7 +127,7 @@
 				selector: '#processCircle4',
                 size: 120,
                 num: 0,
-                speed: 5,
+                speed: 500,
                 textColor: '#123',
                 borderType: 'solid',
 				borderColor: '#666',
@@ -130,7 +140,7 @@
 				selector: '#processCircle5',
                 size: 110,
                 num: 98,
-                speed: 5,
+                speed: 500,
                 textColor: '#123',
                 borderType: 'solid',
 				borderColor: '#666',
