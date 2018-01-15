@@ -25,9 +25,42 @@
 <script type="text/javascript">
     'use strict';
 
-
+    /**
+     * JavaScript TreeView Menu
+     * @version 1.0.0
+     * @author Jehorn(gerardgu@outlook.com)
+     * @param  {string} selecto  Selector
+     * @param  {Object} options  Configuration
+     * @return {Object} treeView TreeView DOM
+     */
     function treeView(selector, options) {
-        
+        function TreeView() {
+            if (this instanceof TreeView) {
+                var container = document.querySelector(selector);
+                if (!container) {
+                    throw new Error('ERR! TreeView: Get none of container.');
+                }
+
+                this.container = container;
+
+                this.key         = options.key          || 'id';
+                this.parentKey   = options.kparentKey   || 'pid';
+                this.childrenKey = options.kchildrenKey || 'children';
+                this.titleKey    = options.ktitleKey    || 'title';
+                this.iconKey     = options.kiconKey     || 'icon';
+                this.urlKey      = options.kurlKey      || 'url';
+
+                this.init();
+            } else {
+                return new TreeView(selector, options);
+            }
+        }
+    }
+
+    TreeView.prototype = {
+        init: function () {
+
+        }
     }
 
     // array view data
