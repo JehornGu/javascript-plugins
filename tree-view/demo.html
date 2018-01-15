@@ -1,0 +1,196 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        p, ul, li {
+            margin: 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item-child {
+            transition: all 0.3s linear;
+        }
+    </style>
+</head>
+<body>
+
+
+<script type="text/javascript">
+    'use strict';
+
+
+    function treeView(selector, options) {
+        
+    }
+
+    // array view data
+    var sideBarSrc = [
+        { id: '1', pid: '', title: '我的账户', icon: '', url: '' },
+        { id: '2', pid: '', title: '邀请好友', icon: '', url: '/' },
+        { id: '3', pid: '', title: '推介投资', icon: '', url: '/' },
+        { id: '4', pid: '', title: '我的信息', icon: '', url: '' },
+        { id: '1-1', pid: '1', title: '投资记录', icon: '', url: '' },
+        { id: '1-2', pid: '1', title: '抵扣红包', icon: '', url: '' },
+        { id: '1-3', pid: '1', title: '加息礼券', icon: '', url: '' },
+        { id: '1-4', pid: '1', title: '交易明细', icon: '', url: '' },
+        { id: '4-1', pid: '4', title: '基本信息', icon: '', url: '' },
+        { id: '4-2', pid: '4', title: '密码设置', icon: '', url: '' },
+        { id: '4-3', pid: '4', title: '我的消息', icon: '', url: '' },
+        { id: '4-1-1', pid: '4-1', title: '测试节点1', icon: '', url: '' },
+        { id: '4-1-2', pid: '4-1', title: '测试节点2', icon: '', url: '' },
+        { id: '1-2-1', pid: '1-2', title: '测试节点3', icon: '', url: '' }
+    ];
+
+    /**
+     * 二维数组转树形数组
+     * @param  {Array}  src         源数组
+     * @param  {string} key         主键
+     * @param  {string} parentKey   父键
+     * @param  {string} childrenKey 子键
+     * @return {Array}  _tree       树形数组
+     */
+    function arrData2TreeData(src, key, parentKey, childrenKey) {
+        if (!(typeof src === 'object' && src.length)) return;
+
+        key         = key         || 'id';
+        parentKey   = parentKey   || 'pid';
+        childrenKey = childrenKey || 'children';
+
+        var _tree = [],
+            _src = src;
+
+        for (var i = 0; i < _src.length; i++) {
+            _src[i][childrenKey] = [];
+            for (var len = _src.length, j = len - 1; j >= 0; j--) {
+                if (_src[i][parentKey] == _src[j][key]) {
+                    _src[j][childrenKey].push(_src[i]);
+                }
+            }
+        }
+
+        for (var i = 0; i < _src.length; i++) {
+            if (!_src[i][parentKey]) {
+                _tree.push(_src[i]);
+            }
+        }
+
+        return _tree;
+    }
+
+    var tree = arrData2TreeData(sideBarSrc);
+    console.log(tree);
+
+    function renderTreeView(treeArr, key, parentKey, childrenKey, titleKey, iconKey, urlKey) {
+        if (!(typeof treeArr === 'object' && treeArr.length)) return;
+
+        var eleWrapper = 'ul',
+            eleItem = 'li',
+            eleItemTitle = 'a',
+            eleItemText = 'span',
+            eleIcon = 'i',
+            childPaddingDirection = 'paddingLeft', // 子菜单缩进方向
+            paddingChild = '20px', // 子菜单左缩进
+            childMaxHeight = '100px'; // 必须设置，否则将不会有过度效果
+        var CLASS_NAME = {
+            WRAPPER: 'tree-view-wrapper',
+            ITEM: 'tree-item',
+            ITEM_TEXT: 'item-text',
+            CHILD: 'item-child',
+            ICON: 'item-icon'
+        };
+
+        var getUnit = /[\d|.]+(\w+)/;
+
+        key         = key         || 'id';
+        parentKey   = parentKey   || 'pid';
+        childrenKey = childrenKey || 'children';
+        titleKey    = titleKey    || 'title';
+        iconKey     = iconKey     || 'icon';
+        urlKey      = urlKey      || 'url';
+
+        var wrapper = document.createElement(eleWrapper);
+        wrapper.className = CLASS_NAME.WRAPPER;
+
+        function toggle(e) {
+            var child_wrapper = this.parentNode.querySelector('.' + CLASS_NAME.CHILD);
+            if (!child_wrapper) return;
+            if (child_wrapper.style.maxHeight === '0px') {
+                child_wrapper.style.maxHeight = childMaxHeight;
+                return;
+            }
+
+            child_wrapper.style.maxHeight = '0px';
+        }
+
+        function create(_tree, parent) {
+            for (var i = 0; i < _tree.length; i++) {
+                var item = document.createElement(eleItem),
+                    item_t = document.createElement(eleItemTitle),
+                    text = document.createElement(eleItemText),
+                    t = document.createTextNode(_tree[i][titleKey]),
+                    icon = document.createElement(eleIcon);
+
+                // class name
+                item.className = CLASS_NAME.ITEM;
+                item_t.className = CLASS_NAME.ITEM_TEXT;
+                icon.className = CLASS_NAME.ICON;
+
+                // styles
+                icon.style.display = 'inline-block';
+                icon.style.background = 'url(' + _tree[i][iconKey] + ')';
+
+                // data-id / title
+                if (item.dataset) {
+                    item.dataset.id = _tree[i][key];
+                } else {
+                    item.title = _tree[i][key];
+                }
+
+                // attr
+                if (_tree[i][urlKey]) {
+                    item_t.setAttribute('href', _tree[i][urlKey]);
+                }
+
+                // bind event
+                item_t.addEventListener('click', toggle);
+
+                // append 2 super
+                text.appendChild(t);
+                item_t.appendChild(icon);
+                item_t.appendChild(text);
+                item.appendChild(item_t);
+                parent.appendChild(item);
+
+                // recursive
+                if (_tree[i][childrenKey].length) {
+                    var child = document.createElement(eleWrapper);
+                    child.className = CLASS_NAME.CHILD;
+                    child.style[childPaddingDirection] = parseInt(paddingChild) + getUnit.exec(paddingChild)[1];
+                    child.style.overflow = 'hidden';
+                    child.style.maxHeight = '0px';
+                    child.style.overflow = 'auto';
+                    item.appendChild(child);
+                    create(_tree[i][childrenKey], child);
+                }
+            }
+        }
+        
+
+
+        create(treeArr, wrapper);
+
+        return wrapper;
+    }
+
+    var treeView = renderTreeView(tree);
+    document.body.appendChild(treeView);
+</script>
+</body>
+</html>

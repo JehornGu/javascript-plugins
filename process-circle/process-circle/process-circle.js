@@ -1,6 +1,6 @@
 /*!
  * Circle Process
- * @version 1.4.1
+ * @version 1.4.2
  * @author Jehorn(gerardgu@outlook.com)
  * IE9/IE9+
  * ======================================
@@ -64,7 +64,7 @@
     var ProcessCircle = function (json) {
         if (this instanceof ProcessCircle) {
             this.author = 'Jehorn';
-            this.version = '1.4.1';
+            this.version = '1.4.2';
 
             // 进度条的宽/高
             this.size = json.size || 100;
@@ -226,7 +226,7 @@
         // 获取数组/字符串属性值
         this.getText = function (attr, index) {
             var text;
-            if (typeof attr === 'object' && attr.length && attr[index]) {
+            if (typeof attr === 'object' && attr.length && (attr[index] || attr[index] == 0)) {
                 text = attr[index];
             } else if (typeof attr === 'object' && attr.length) {
                 text = attr[0];
