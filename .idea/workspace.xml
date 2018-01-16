@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dab90b00-3788-4358-b8ef-97a762632708" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/tree-view/dist/tree-view.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/tree-view/demo.html" afterPath="$PROJECT_DIR$/tree-view/demo.html" />
     </list>
@@ -21,14 +21,23 @@
       <file leaf-file-name="demo.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tree-view/demo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
-              <folding />
+            <state relative-caret-position="323">
+              <caret line="27" column="31" lean-forward="true" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+              <folding>
+                <element signature="e#700#1649#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -38,6 +47,8 @@
       <find>speed</find>
       <find>num</find>
       <find>json</find>
+      <find>console.log</find>
+      <find>eleWrapper</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -48,8 +59,9 @@
       <list>
         <option value="$PROJECT_DIR$/process-circle/demo.html" />
         <option value="$PROJECT_DIR$/process-circle/process-circle/process-circle.js" />
-        <option value="$PROJECT_DIR$/tree-view/demo.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/tree-view/demo.html" />
+        <option value="$PROJECT_DIR$/tree-view/dist/tree-view.js" />
       </list>
     </option>
   </component>
@@ -65,9 +77,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="154" />
-    <option name="y" value="8" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="89" />
+    <option name="y" value="14" />
     <option name="width" value="1644" />
     <option name="height" value="990" />
   </component>
@@ -98,6 +110,12 @@
               <item name="my-plugins" type="b2602c69:ProjectViewProjectNode" />
               <item name="my-plugins" type="462c0819:PsiDirectoryNode" />
               <item name="tree-view" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="my-plugins" type="b2602c69:ProjectViewProjectNode" />
+              <item name="my-plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="tree-view" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -140,15 +158,15 @@
       <updated>1515911949850</updated>
       <workItem from="1515911951112" duration="13652000" />
       <workItem from="1516017013762" duration="601000" />
-      <workItem from="1516066085000" duration="66000" />
+      <workItem from="1516066085000" duration="2702000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14562000" />
+    <option name="totallyTimeSpent" value="17198000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="154" y="8" width="1644" height="990" extended-state="0" />
+    <frame x="89" y="14" width="1644" height="990" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15847667" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -189,7 +207,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#700#1649#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -198,7 +218,7 @@
         <state relative-caret-position="14742">
           <caret line="576" column="22" lean-forward="true" selection-start-line="576" selection-start-column="22" selection-end-line="576" selection-end-column="22" />
           <folding>
-            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#367#1671#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -222,7 +242,7 @@
         <state relative-caret-position="166">
           <caret line="576" column="22" lean-forward="true" selection-start-line="576" selection-start-column="22" selection-end-line="576" selection-end-column="22" />
           <folding>
-            <element signature="n#!!doc" expanded="false" />
+            <element signature="e#367#1671#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -231,7 +251,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-468">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#700#1649#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -260,11 +282,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tree-view/dist/tree-view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6292">
+          <caret line="242" column="4" lean-forward="false" selection-start-line="242" selection-start-column="4" selection-end-line="242" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tree-view/demo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
-          <folding />
+        <state relative-caret-position="323">
+          <caret line="27" column="31" lean-forward="true" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+          <folding>
+            <element signature="e#700#1649#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
