@@ -1,2 +1,9 @@
 # WebStorm
 .idea/
+.idea/workspace.xml*
+
+# package
+node_modules/
+
+# log
+npm-debug.log*
