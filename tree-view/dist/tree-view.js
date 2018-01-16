@@ -1,10 +1,13 @@
 /*!
  * JavaScript TreeView Menu
- * @version 1.0.0
+ * @version 1.0.1
  * @author Jehorn(gerardgu@outlook.com)
  * @param  {string} selecto  Selector
  * @param  {Object} options  Configuration
  * @return {Object} treeView TreeView DOM
+ * ========================================
+ * 1. 可以通过 callback 参数 return false; 进行拦截默认点击事件
+ * 2. childMaxHeight 设置为 0 时，将会设置 display: none
  */
 ;(function (factory) {
     if (typeof exports === 'object') {
@@ -44,6 +47,8 @@
             this.titleKey    = options.ktitleKey    || 'title';
             this.iconKey     = options.kiconKey     || 'icon';
             this.urlKey      = options.kurlKey      || 'url';
+            this.openKey     = options.openKey      || 'open';
+            this.activeKey   = options.activeKey    || 'active';
 
             // 菜单标签
             this.eleWrapper   = options.eleWrapper || 'ul';    // 菜单容器标签
@@ -55,10 +60,13 @@
             // 值
             this.childPaddingDirection = options.childPaddingDirection || 'paddingLeft'; // 子菜单缩进方向
             this.paddingChild          = options.paddingChild          || '20px';        // 子菜单左缩进
-            this.childMaxHeight        = options.childMaxHeight        || '100px';       // 必须设置，否则将不会有过渡效果
+            this.childMaxHeight        = options.childMaxHeight == 0 ? 0 : '100px';       // 最大高度
 
             // 事件回调
-            this.callback    = typeof options.callback === 'function' ? options.callback : function () { };
+            this.callback = typeof options.callback === 'function' ? options.callback : function () { };
+
+            // 是否默认展开
+            this.isOpen = options.isOpen === true ? true : false;
 
             this.init();
         } else {
@@ -126,7 +134,10 @@
             titleKey    = _this.titleKey,
             iconKey     = _this.iconKey,
             urlKey      = _this.urlKey,
-            callback    = _this.callback;
+            openKey     = _this.openKey,
+            activeKey   = _this.activeKey,
+            callback    = _this.callback,
+            isOpen      = _this.isOpen;
 
         // 类名
         var CLASS_NAME = {
@@ -134,7 +145,8 @@
             ITEM: 'tree-item',
             ITEM_TEXT: 'item-text',
             CHILD: 'item-child',
-            ICON: 'item-icon'
+            ICON: 'item-icon',
+            ACTIVE: 'active'
         };
 
         // 获取值单位
@@ -142,16 +154,24 @@
 
         // 点击事件
         function toggle(e) {
-            callback(e);
-
             var child_wrapper = this.parentNode.querySelector('.' + CLASS_NAME.CHILD);
+
+            var _cb = callback(this, child_wrapper);
+
             if (!child_wrapper) return;
-            if (child_wrapper.style.maxHeight === '0px') {
-                child_wrapper.style.maxHeight = childMaxHeight;
+            if (_cb === false) return;
+            
+            if (child_wrapper.style.maxHeight === '0px'
+                || child_wrapper.style.display === 'none') {
+                childMaxHeight == 0
+                    ? child_wrapper.style.display = 'block'
+                    : child_wrapper.style.maxHeight = childMaxHeight;
                 return;
             }
 
-            child_wrapper.style.maxHeight = '0px';
+            childMaxHeight == 0
+                ? child_wrapper.style.display = 'none'
+                : child_wrapper.style.maxHeight = '0px';
         }
 
         // 创建菜单容器
@@ -168,7 +188,9 @@
                     icon = document.createElement(eleIcon);
 
                 // class name
-                item.className = CLASS_NAME.ITEM;
+                var _item_classname = CLASS_NAME.ITEM;
+                _tree[i][activeKey] === true ? (_item_classname += ' ' + CLASS_NAME.ACTIVE) : '';
+                item.className = _item_classname;
                 item_t.className = CLASS_NAME.ITEM_TEXT;
                 icon.className = CLASS_NAME.ICON;
 
@@ -204,7 +226,16 @@
                     child.className = CLASS_NAME.CHILD;
                     child.style[childPaddingDirection] = parseInt(paddingChild) + getUnit.exec(paddingChild)[1];
                     child.style.overflow = 'hidden';
-                    child.style.maxHeight = '0px';
+                    if (_tree[i][openKey] == true || isOpen == true) {
+                        childMaxHeight == 0
+                            ? child.style.display = 'block'
+                            : child.style.maxHeight = childMaxHeight;
+                    } else {
+                        childMaxHeight == 0
+                            ? child.style.display = 'none'
+                            : child.style.maxHeight = '0px';
+                    }
+                    
                     child.style.overflow = 'auto';
                     item.appendChild(child);
                     create(_tree[i][childrenKey], child);
